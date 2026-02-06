@@ -1,14 +1,17 @@
-# Molecular Biology Toolkit
+# 🧬 Molecular Biology Toolkit
 
 A lightweight, web-based utility designed for biology lab workers to perform common molecular biology calculations quickly and accurately.
 
-## Usage
+### Online
+Visit [Molecular Biology Toolkit](https://sahmed0.github.io/lab-tools/) to use the toolkit.
 
-Visit [Molecular Biology Toolkit](https://sahmed0.github.io/lab-tools/) to use the toolkit on your browser.
+### Local
+I have limited everything to one file so it's easy to install and use for non-technical users.
+1. Download the index.html file
+2. Open in your browser to use it.
+3. Open in an IDE to edit it.
 
-You can also download the toolkit as a html (index.html) file from [GitHub](https://github.com/sahmed0/lab-tools) and run it locally. I have limited everything to one file so it's easy to install and use for non-technical users.
-
-## 🧬 Features
+## Features
 
 The toolkit provides 8 essential calculation modules:
 
@@ -21,13 +24,15 @@ The toolkit provides 8 essential calculation modules:
 7.  **Purity Check**: Analyze $260/280$ and $260/230$ ratios for contamination.
 8.  **Mass to Moles**: Convert DNA mass (ng) to moles (pmol) based on base pair length.
 
-## 🎨 Design & Philosophy
+## Design & Philosophy
 
 -   **Simple UI**: High-contrast, monochrome-adjacent theme with large buttons and legible fonts, all in one page to minimise context-switching.
 -   **Mobile First**: Fully responsive design optimised for iPads and smartphones, featuring large touch targets and readable typography.
 -   **Lighthearted Tone**: Includes a touch of sarcasm to keep your long hours in the hood interesting.
 
-## 🛠️ Tech Stack
+![Screenshot](mockup.png)
+
+## Tech Stack
 
 -   **HTML5/CSS3**: Pure vanilla code for maximum performance.
 -   **JavaScript**: ES6+ logic for instant calculations.
