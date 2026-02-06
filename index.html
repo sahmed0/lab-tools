@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bio Lab Tools</title>
+    <title>Lab Tools</title>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -104,7 +104,7 @@
             padding: 20px;
             box-shadow: var(--shadow);
             transition: transform 0.1s, box-shadow 0.1s;
-            background: #fff;
+            background: #f9fdff;
         }
 
         /* Hover effects: Only on devices that support hover */
@@ -124,7 +124,7 @@
 
         .sarcasm {
             font-style: italic;
-            font-size: 0.9em;
+            font-size: 1em;
             margin-bottom: 15px;
             display: block;
             border-bottom: 1px dashed #000;
@@ -323,13 +323,13 @@
         </p>
 
         <a name="solutions"></a>
-        <h2>I. Buffer & Solution Prep</h2>
+        <h2>I. Solution Prep</h2>
         <div class="grid-container">
 
             <!-- 1. Mass-Molarity -->
             <div class="calc-box">
                 <h3>1. Mass-Molarity</h3>
-                <span class="sarcasm">Do you really need a calculator for this?</span>
+                <span class="sarcasm">Do you really need a website for this?</span>
                 <div class="equation">$$ Mass = Conc \times Vol \times MW $$</div>
                 <table>
                     <tr>
@@ -349,7 +349,7 @@
             <!-- 2. General Dilution -->
             <div class="calc-box">
                 <h3>2. General Dilution</h3>
-                <span class="sarcasm">Ugh.</span>
+                <span class="sarcasm">Duh.</span>
                 <div class="equation">$$ V_{stock} = (C_{target} \times V_{total}) / C_{stock} $$</div>
                 <table>
                     <tr>
@@ -359,7 +359,7 @@
                         <td>Target (C<sub>2</sub>)<br><input type="number" id="c2_mm" placeholder="e.g. 1"></td>
                     </tr>
                     <tr>
-                        <td>Total Vol (V_2)<br><input type="number" id="v2_mm" placeholder="e.g. 100"></td>
+                        <td>Total Vol (V<sub>2</sub>)<br><input type="number" id="v2_mm" placeholder="e.g. 100"></td>
                     </tr>
                 </table>
                 <button onclick="calcMasterMix()">Dilute It</button>
@@ -406,21 +406,29 @@
             <!-- 5. Gel Recipe -->
             <div class="calc-box">
                 <h3>5. Gel Recipe</h3>
-                <span class="sarcasm">No idea what this means I just found it online.</span>
+                <span class="sarcasm">Trying my best.</span>
                 <table>
                     <tr>
-                        <td>Target %<br><input type="number" id="gel_perc" placeholder="e.g. 10"></td>
+                        <td>Acrylamide Target %<br><input type="number" id="gel_perc" placeholder="e.g. 10"></td>
                     </tr>
                     <tr>
-                        <td>Volume (ml)<br><input type="number" id="gel_vol" placeholder="e.g. 10"></td>
+                        <td>Total Gel Volume (ml)<br><input type="number" id="gel_vol" placeholder="e.g. 10"></td>
                     </tr>
                     <tr>
-                        <td>Stock %<br>
-                            <select id="gel_stock">
-                                <option value="30">30%</option>
-                                <option value="40">40%</option>
-                            </select>
+                        <td>Acrylamide Stock %<br><input type="number" id="gel_stock" placeholder="e.g. 30"></td>
+                    </tr>
+                    <tr>
+                        <td>Tris Buffer Stock (M)<br><input type="number" id="tris_stock" placeholder="e.g. 1.5"></td>
+                    </tr>
+                    <tr>
+                        <td>Tris Buffer Target (M)<br><input type="number" id="tris_target" placeholder="e.g. 0.375">
                         </td>
+                    </tr>
+                    <tr>
+                        <td>SDS Stock %<br><input type="number" id="sds_stock" placeholder="e.g. 10"></td>
+                    </tr>
+                    <tr>
+                        <td>SDS Target %<br><input type="number" id="sds_target" placeholder="e.g. 0.1"></td>
                     </tr>
                 </table>
                 <button onclick="calcGel()">Cook It Up</button>
@@ -516,7 +524,7 @@
             const mw = parseFloat(document.getElementById('mw_sol').value);
             const vol = parseFloat(document.getElementById('vol_sol').value);
             const conc = parseFloat(document.getElementById('conc_sol').value);
-            if (!mw || !vol || !conc) return show('res_sol', "Inputs required. I'm not psychic.", true);
+            if (!mw || !vol || !conc) return show('res_sol', "Inputs required.", true);
             const mass = mw * vol * conc;
             show('res_sol', `Weigh out ${mass.toFixed(4)} g.\nDon't spill it.`);
         }
@@ -526,8 +534,8 @@
             const C1 = parseFloat(document.getElementById('c1_mm').value);
             const C2 = parseFloat(document.getElementById('c2_mm').value);
             const V2 = parseFloat(document.getElementById('v2_mm').value);
-            if (!C1 || !C2 || !V2) return show('res_mm', "Empty fields? Really?", true);
-            if (C1 <= C2) return show('res_mm', "Stock < Target?\nDo you know how physics works?", true);
+            if (!C1 || !C2 || !V2) return show('res_mm', "Empty fields.", true);
+            if (C1 <= C2) return show('res_mm', "Stock < Target?", true);
             const V1 = (C2 * V2) / C1;
             show('res_mm', `> Stock: ${V1.toFixed(2)} units\n> Diluent: ${(V2 - V1).toFixed(2)} units\n> Mix, don't shake.`);
         }
@@ -536,7 +544,7 @@
         function calcBCA() {
             const conc = parseFloat(document.getElementById('bca_conc').value);
             const target = parseFloat(document.getElementById('bca_mass').value);
-            if (!conc || !target) return show('res_bca', "Feed me numbers.", true);
+            if (!conc || !target) return show('res_bca', "Inputs required.", true);
             const vol = target / conc;
             show('res_bca', `Pipette ${vol.toFixed(2)} µl.\nGood luck with that precision.`);
         }
@@ -545,21 +553,29 @@
         function calcAntibody() {
             const vol = parseFloat(document.getElementById('ab_vol').value);
             const dil = parseFloat(document.getElementById('ab_dil').value);
-            if (!vol || !dil) return show('res_ab', "You forgot something.", true);
+            if (!vol || !dil) return show('res_ab', "Empty fields.", true);
             const vol_ul = vol * 1000;
             const ab = vol_ul / dil;
-            show('res_ab', `Add ${ab.toFixed(2)} µl antibody\nto ${(vol_ul - ab).toFixed(1)} µl buffer.\nExpensive water.`);
+            show('res_ab', `Add ${ab.toFixed(2)} µl of antibody.`);
         }
 
         // 5. GEL RECIPE
         function calcGel() {
-            const perc = parseFloat(document.getElementById('gel_perc').value);
-            const vol = parseFloat(document.getElementById('gel_vol').value);
-            const stock = parseFloat(document.getElementById('gel_stock').value);
-            if (!perc || !vol) return show('res_gel', "Inputs missing.", true);
-            const acrylamide = (perc * vol) / stock;
-            const water = vol - (acrylamide + (vol / 4) + (vol * 0.01) + (vol * 0.01));
-            show('res_gel', `H2O: ${water.toFixed(2)} ml\nAcrylamide: ${acrylamide.toFixed(2)} ml\nTris: ${(vol / 4).toFixed(2)} ml\nSDS/APS: ${(vol * 0.01).toFixed(2)} ml\n\nHope it polymerises.`);
+            const gel_perc = parseFloat(document.getElementById('gel_perc').value);
+            const gel_vol = parseFloat(document.getElementById('gel_vol').value);
+            const gel_stock = parseFloat(document.getElementById('gel_stock').value);
+            const tris_stock = parseFloat(document.getElementById('tris_stock').value);
+            const tris_target = parseFloat(document.getElementById('tris_target').value);
+            const sds_stock = parseFloat(document.getElementById('sds_stock').value);
+            const sds_target = parseFloat(document.getElementById('sds_target').value);
+            if (!gel_perc || !gel_vol || !gel_stock || !tris_stock || !tris_target || !sds_stock || !sds_target) return show('res_gel', "Inputs missing.", true);
+            const acrylamide = (gel_perc * gel_vol) / gel_stock;
+            const tris = (tris_target * gel_vol) / tris_stock;
+            const sds = (sds_target * gel_vol) / sds_stock;
+            const water = gel_vol - (acrylamide + tris + sds);
+            const aps = gel_vol * 0.01;
+            const temed = gel_vol * 0.001;
+            show('res_gel', `Water: ${water.toFixed(2)} ml\nAcrylamide: ${acrylamide.toFixed(2)} ml\nTris: ${tris.toFixed(2)} ml\nSDS: ${sds.toFixed(2)} ml\nAPS (10% w/v stock): ${aps.toFixed(2)} ml\nTEMED (pure stock): ${temed.toFixed(2)} ml`);
         }
 
         // 6. DNA QUANT
@@ -567,7 +583,7 @@
             const abs = parseFloat(document.getElementById('q_abs').value);
             const factor = parseFloat(document.getElementById('q_type').value);
             const dil = parseFloat(document.getElementById('q_dil').value);
-            if (!abs) return show('res_quant', "No absorbance = No result.", true);
+            if (!abs) return show('res_quant', "Empty fields.", true);
             const res = abs * factor * dil;
             show('res_quant', `Concentration: ${res.toFixed(2)} µg/ml`);
         }
@@ -580,14 +596,14 @@
             if (!a260 || !a280 || !a230) return show('res_purity', "Need all 3 values.", true);
             const r1 = (a260 / a280).toFixed(2);
             const r2 = (a260 / a230).toFixed(2);
-            show('res_purity', `260/280: ${r1} ${r1 < 1.8 ? ' [DIRTY]' : ' [CLEAN]'}\n260/230: ${r2} ${r2 < 2.0 ? ' [SALTY]' : ' [OK]'}`);
+            show('res_purity', `260/280: ${r1} ${r1 < 1.8 ? ' [CONTAMINATED]' : ' [OK]'}\n260/230: ${r2} ${r2 < 2.0 ? ' [CONTAMINATED]' : ' [OK]'}`);
         }
 
         // 8. DNA MOLES
         function calcDNAMoles() {
             const mass = parseFloat(document.getElementById('mol_mass').value);
             const bp = parseFloat(document.getElementById('mol_bp').value);
-            if (!mass || !bp) return show('res_moles', "Cannot compute.", true);
+            if (!mass || !bp) return show('res_moles', "Empty fields.", true);
             const pmol = (mass * 1000) / (bp * 650);
             show('res_moles', `Result: ${pmol.toFixed(3)} pmol`);
         }
